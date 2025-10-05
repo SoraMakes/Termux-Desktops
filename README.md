@@ -1,4 +1,7 @@
-# Android on Linux: Termux X11 Desktop
+# Linux on Android
+
+>  [!INFO]
+> Currently i am working on getting postmarketOS running on my Xiaomi Pad 6 (pipa). Documentation on that is in the [postmarketOS](./postmarketOS) folder.
 
 This is the documentation on how i set up my desktop environment on my Xiaomi Pad 6 (pipa) with PixelOS. It's based on DroidMasters [Termux-Desktops](https://github.com/LinuxDroidMaster/Termux-Desktops) project.
 
@@ -8,12 +11,13 @@ This is the documentation on how i set up my desktop environment on my Xiaomi Pa
 ## Evaluation of Approaches
 I am aiming on being able to actually work on my Tablet. For example i want to be able to debug a software issue requiring a proper IDE.
 
-My evaluation for the 4 possible Approaches
+My evaluation for the possible Approaches
 
 - Android builtin Linux VM (new in Android 15 -> Developer settings): It's a VM. Comes with lots of overhead, especially with memory. Sharing 8GB between Android and Linux with UI with VM approach ... dont like it. Not available on pipa (kernel does not support kvm)
 - Termux native: Worked, but does not support relevant Applications, or only with lots of workarounds. Jetbrains IDEs did run, but only with a few workarounds and still some issues. VSCode did only run as Browser-Version, which does not support many plugins. Did not try [glibc-runner](https://github.com/LinuxDroidMaster/Termux-Desktops/blob/main/Documentation/terminology.md)
 - Proot: Worked fine, setup was easy, but performance was bad. Starting Firefox and loading the webpages to download two applications took minutes. Would technically fullfill my requirements, but would not be a fun experience
 - Chroot: Most complex to set up, but solves most issues the other approaches have.
+- Replacing Android with Linux (postmarketOS): Theoretically avoids all android specific issues. But it has one big disadvantage: Replaces android 🙈. Theres hardly any information available for that approach and no (official) support in postmarketOS.
 
 ## Known Issues
 - Docker is not possible as of missing kernel features. I did work around this by using a 2nd device with kvm support.
