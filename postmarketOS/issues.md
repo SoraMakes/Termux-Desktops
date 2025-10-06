@@ -45,8 +45,12 @@ Solution: `apk add kio-kwallet`
 
 Note: Your IP address might already be throttled/blocked because of the unauthenticated requests (no login request or empty folder shown). Try with another IP.
 
-# ❌ Boot and initial login are slow
+Note: I decided to use rclone instead as the performance with kio was bad. (rclone config as user rand entry in fstab -> mountable via dolphin)
+
+## ❌ Boot and initial login are slow
 Boot until login screen is shown takes around 2-3 minutes and login 1-2. Thats way too slow.
+
+## ❌ login screen will never appear if user logs out (not session lock, logout)
 
 # Minimal
 
