@@ -52,6 +52,41 @@ Boot until login screen is shown takes around 2-3 minutes and login 1-2. Thats w
 
 ## ❌ login screen will never appear if user logs out (not session lock, logout)
 
+## ✅ external display does not list the correct resolution
+I could not select 1920x1080 for my FHD display.
+
+Solution: install xrandr (then reconnect display once)
+
+## ✅ ssh agent (with keypassxc)
+SSH Agent did not work here as I am used to. `eval $(ssh-agent -s)` runs the agent only for one terminal session without connection to other sessions. Just using `keychain` also did not fully work for me (not exactly sure anymore what the issue was, i think keepassxc was not working).
+
+Solution:
+1) `apk add bash`
+2) change shell of the user to `/bin/bash` in `/etc/passwd`
+3) add this to `$HOME/.profile`
+```bash
+eval $(keychain --eval)
+```
+4) reboot
+
+## Printers not working
+ - install cups `apk add cups cups-libs cups-pdf cups-client cups-filters hplip`
+- add user to lpadmin group: `usermod -aG lpadmin user`
+- enable / start cupsd service: `rc-update add cupsd boot` and `rc-service cupsd start`
+
+>[NOTICE]
+> Alpine docs tells to also do this:
+> To manage printers from KDE Plasma Settings, it is required to add "root" to SystemGroup in /etc/cups/cups-files.conf.
+> e.g. `SystemGroup root lpadmin`
+
+
+rebooting now might solve some issues (group assignment will be active and cuspd failed to start for me initially)
+
+I did not find a driver for my printer, but it still worked adding it manually as an ipp printer.
+- enter CUPS in Browser (http://localhost:631) and select "Administration" -> "Add printer" 
+- provide information for "Internet Printing" (ipp) like printer IP make, model, etc
+- add printer
+
 # Minimal
 
 
