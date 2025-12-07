@@ -28,12 +28,15 @@ Solution:
 2) readd flathub repo: `flatpak remote-delete --force flathub && flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo`
 
 ## ⚠️ Wifi no auto connect
-two issues: different APs with same name
+two issues: different APs with same name and same AP
 
 ## ❌ OS keyring not available (kwallet not running)
 
-## ⚠️ Camera not working
-Back Camera works (at least with some applications) but has bad quality. Front Camera (selfi cam) does not work.
+## ❌ Camera not working
+According to this issue it is working with gnome so it should be possible to get it working on Plasma too, but the camera has bad quality in gnome.
+
+## ❌ onscreen touch keyboard
+The default one is only appearing unreliably and appears also in unwanted cases
 
 ## ✅ Webdav (Nextcloud) shares not working in Dolphin
 Dolphin is not asking for password and an account added via "online accounts" is not used. "The file or folder does not exist".
@@ -66,23 +69,23 @@ eval $(keychain --eval)
 ```
 4) reboot
 
-## ✅ Printers not working
-- add user to lpadmin group: `usermod -aG lpadmin user` -> reboot / log out and in again to apply this change
-- enable / start cupsd service: `systemd enable --now cups`
+## Printers not working
+ - install cups `apk add cups cups-libs cups-pdf cups-client cups-filters hplip`
+- add user to lpadmin group: `usermod -aG lpadmin user`
+- enable / start cupsd service: `rc-update add cupsd boot` and `rc-service cupsd start`
 
 >[NOTICE]
 > Alpine docs tells to also do this:
 > To manage printers from KDE Plasma Settings, it is required to add "root" to SystemGroup in /etc/cups/cups-files.conf.
 > e.g. `SystemGroup root lpadmin`
 
-The postmarketOS image was missing some dependencies (`cups cups-libs cups-pdf cups-client cups-filters hplip`). I added them in my custom build.
+
+rebooting now might solve some issues (group assignment will be active and cuspd failed to start for me initially)
 
 I did not find a driver for my printer, but it still worked adding it manually as an ipp printer.
 - enter CUPS in Browser (http://localhost:631) and select "Administration" -> "Add printer" 
 - provide information for "Internet Printing" (ipp) like printer IP make, model, etc
 - add printer
-
-For another (USB Samsung laser printer) i used the generic laser printer driver.
 
 # Minimal
 

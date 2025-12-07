@@ -1,57 +1,18 @@
->[NOTICE]
-> This documentation might be incomplete. Its some time ago that i did set it up with systemd. In case something does not work, refer to the [openrc version](openrc/box64.md). Main difference is that it works in rootless mode with systemd. 
+create with init
 
->[WARNING]
-> Steam consumes enormes amounts of memory making it basically impossible to properly use it on this device, so this is more proof of concept. Potentially it works better with FEX as Valve is using it for their upcomming VR Headset.
+first start: if too fast or something seems off : check internet connection
+
+ggf modprobe binfmt_misc
+
+sudo systemctl unmask systemd-binfmt
+sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
 
 # configure distrobox to run steam
 
-Set up subuid and subgid on the host system.
-```
-echo "user:100000:65536" | sudo tee -a /etc/subuid /etc/subgid
-podman system migrate
-```
-
 Create Distro: 
-`distrobox create --image ubuntu:latest --init --name steam`
+`distrobox create --image ubuntu:latest --root --name steam`
 
-This command creates the distrobox with an init system. This is unnecessry overhead, but simplifies setup, as binfmt should work out of the box. I did not test this approach yet. I did set it up without --init and had to run the script below after installing box64 in the guide below and always after starting the distrobox before running steam. Script was taken somewhere from box64/32 or postmarketOS documentation
-
-```
-i386_magic="\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00"
-i386_mask="\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff"
-
-x86_64_magic="\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x3e\x00"
-x86_64_mask="\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff"
-
-echo "Registering box86 and box64 binaries in binfmt misc"
-
-if [ ! -d /proc/sys/fs/binfmt_misc ]; then
-    modprobe binfmt_misc || eend $? || return 1
-fi
-
-if [ ! -f /proc/sys/fs/binfmt_misc/register ]; then
-    mount -t binfmt_misc binfmt_misc /proc/sys/fs/binfmt_misc >/dev/null || eend $? || return 1
-fi
-
-for arch in i386; do
-    interpreter="/usr/local/bin/box86"
-    magic=$(eval echo \$${arch}_magic)
-    mask=$(eval echo \$${arch}_mask)
-
-    echo ":box86:M::$magic:$mask:$interpreter:OCF" > /proc/sys/fs/binfmt_misc/register
-done
-
-for arch in x86_64; do
-    interpreter="/usr/local/bin/box64"
-    magic=$(eval echo \$${arch}_magic)
-    mask=$(eval echo \$${arch}_mask)
-
-    echo ":box64:M::$magic:$mask:$interpreter:OCF" > /proc/sys/fs/binfmt_misc/register
-done
-```
-
-Connect to Distro: `distrobox enter steam`
+Connect to Distro: `distrobox enter --root steam`
 
 Script to install all dependencies and steam:
 ```bash
@@ -182,11 +143,14 @@ echo "Setup complete. Run 'steam' to launch Steam."
 ```
 
 ## Launching steam
-To launch steam, just run `distrobox enter steam -- steam`.
+To launch steam, just run `distrobox enter --root steam -- steam`.
 
 
 
 
-## rootless
-
-the rest just worked with systemd.
+## wip rootless
+```
+echo "user:100000:65536" | sudo tee -a /etc/subuid /etc/subgid
+podman system migrate
+```
+next issue is with cgroups. This issue is likely at least partially fixed whith systemd. So i wont pursue this further for now.

@@ -1,9 +1,8 @@
 The official postmarketOS wiki entry is outdated, the linked pull request is also stale. Development is currently happening [here](https://github.com/pipa-project) and [here](https://gitlab.com/pipa-mainline).
-I am building my work on these projects. The main difference is that i am using systemd instead of openrc.
 
 ## Setup Steps
 
-Ready-to-use builds are available in [this repo](https://github.com/SoraMakes/postmarketos-builds). Go to Actions and download the build.
+Ready-to-use builds are available from [https://github.com/pipa-project/postmarketos-builds](https://github.com/pipa-project/postmarketos-builds). Go to Actions and download the build.
 
 Flash it with fastboot (this will wipe all data):
 - `fastboot erase dtbo_a`
@@ -11,13 +10,15 @@ Flash it with fastboot (this will wipe all data):
 - `fastboot flash userdata <file>`
 - `fastboot set_active a`
 
+> [!WARNING]
+> These builds do not use Full Disk Encryption (FDE) and no systemd>
+
 ## Post-Installation
 These are the general config changes i did
 
 ### adjust zram config
-For postmarketOS systemd i did not find a proper documentation on the correct approach. 
-I found this way to be the most solid solution.
+[official documentation](https://wiki.alpinelinux.org/wiki/Zram)
 
-Add `deviceinfo_zram_swap_pct="100"` to `/etc/deviceinfo` to increase swap size to around 8GB (size of system memory). A reboot is required to apply this change.
+increase zram size to 8GB: `nano /etc/conf.d/zram-init` and set `size0=8192`
 
 optionally choose a higher swappiness: `sysctl vm.swappiness=80` and add `vm.swappiness=80` to `/etc/sysctl.conf`. With the default of 60 i had experienced OOM kills while there was still free swap available.
