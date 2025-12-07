@@ -38,11 +38,10 @@ Back Camera works (at least with some applications) but has bad quality. Front C
 ## ✅ Webdav (Nextcloud) shares not working in Dolphin
 Dolphin is not asking for password and an account added via "online accounts" is not used. "The file or folder does not exist".
 
-Solution: `apk add kio-kwallet`
+Solution:
+A package `kio-kwallet` was missing. It is already added in my custom build.
 
-Note: Your IP address might already be throttled/blocked because of the unauthenticated requests (no login request or empty folder shown). Try with another IP.
-
-Note: I decided to use rclone instead as the performance with kio was bad. (rclone config as user rand entry in fstab -> mountable via dolphin)
+Note: I decided to use rclone instead as the performance with kio was bad and does not work keepassxc. (rclone config as user and entry in fstab -> mountable via dolphin)
 
 ## ❌ Boot and initial login are slow
 Boot until login screen is shown takes around 2-3 minutes and login 1-2. Thats way too slow.
