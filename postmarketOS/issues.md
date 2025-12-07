@@ -41,7 +41,7 @@ Dolphin is not asking for password and an account added via "online accounts" is
 Solution:
 A package `kio-kwallet` was missing. It is already added in my custom build.
 
-Note: I decided to use rclone instead as the performance with kio was bad and does not work keepassxc. (rclone config as user and entry in fstab -> mountable via dolphin)
+Note: I decided to use rclone instead as the performance with kio was bad. (rclone config as user and entry in fstab -> mountable via dolphin)
 
 ## ❌ Boot and initial login are slow
 Boot until login screen is shown takes around 2-3 minutes and login 1-2. Thats way too slow.
