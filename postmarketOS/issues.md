@@ -32,6 +32,13 @@ two issues: different APs with same name
 
 ## ❌ OS keyring not available (kwallet not running)
 
+## ⚠️ Cant change locale settings in KDE Plasma UI
+There are no options to change things like date or number format to anything else then english.
+
+Run `localectl set-locale de_DE` (`localectl get-locales` showed no output, but set-locale still worked)
+
+
+
 ## ⚠️ Camera not working
 Back Camera works (at least with some applications) but has bad quality. Front Camera (selfi cam) does not work.
 
