@@ -12,6 +12,9 @@ Issues have one of these states
 
 # Relevant
 
+## ❌ Audio volume too low
+the configuration (hexagronrpc and ucm2) in used pmaports are only for openrc. They need to be ported to systemd to make audio work properly.
+
 ## ⚠️ glibc applications
 Issue: Alpine uses Musl as c library. Most applications not available in the alpine repos will not run
 
@@ -28,14 +31,14 @@ Solution:
 2) readd flathub repo: `flatpak remote-delete --force flathub && flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo`
 
 ## ⚠️ Wifi no auto connect
-two issues: different APs with same name
+different APs with same name
 
 ## ❌ OS keyring not available (kwallet not running)
 
 ## ⚠️ Cant change locale settings in KDE Plasma UI
 There are no options to change things like date or number format to anything else then english.
 
-Run `localectl set-locale de_DE` (`localectl get-locales` showed no output, but set-locale still worked)
+Run `localectl set-locale de_DE-UTF8` (`localectl get-locales` showed no output, but set-locale still worked)
 
 
 
@@ -55,10 +58,10 @@ Boot until login screen is shown takes around 2-3 minutes and login 1-2. Thats w
 
 ## ❌ login screen will never appear if user logs out (not session lock, logout)
 
-## ✅ external display does not list the correct resolution
+## ❌ external display does not list the correct resolution
 I could not select 1920x1080 for my FHD display.
 
-Solution: install xrandr (then reconnect display once)
+Currently unsolved, solution from openrc not working anymore
 
 ## ✅ ssh agent (with keypassxc)
 SSH Agent did not work here as I am used to. `eval $(ssh-agent -s)` runs the agent only for one terminal session without connection to other sessions. Just using `keychain` also did not fully work for me (not exactly sure anymore what the issue was, i think keepassxc was not working).
